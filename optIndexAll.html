@@ -1,0 +1,105 @@
+<!DOCTYPE html><head>
+    <style type="text/css">
+
+
+    </style>
+
+</head>
+
+<body onload="runTblFncn()">
+
+<div id="divOptIndex" style="border:0px solid;width:98%;height:200px;">
+    <table id="tblOptIndex" width="100%">
+        <tr style="outline: thin solid"><td width="10"></td><td>Bank Nifty</td><td style="text-align: right;">---------</td><td width="15"></tr>
+        <tr style="outline: thin solid"><td width="10"><td>Nifty</td><td style="text-align: right;">---------</td><td width="15"></tr>
+        <tr style="outline: thin solid"><td width="10"><td>NiftyMidSelect</td><td style="text-align: right;">---------</td><td width="15"></tr>
+        <tr style="outline: thin solid"><td width="10"><td>Finnifty</td><td style="text-align: right;">---------</td><td width="15"></tr>
+    </table>
+
+</div>
+
+</body>
+<script type="text/javascript" >
+
+    function loadTbl(tblStr) {
+        //console.log("tblStr="+tblStr);
+        var tableArr = document.getElementById('tblOptIndex');
+
+        var objArr = JSON.parse(tblStr);
+        for(let i = 0; i < objArr.length; i++) {
+            var obj = objArr[i];
+            //console.log(obj.id);
+
+            //var cell = tableArr.rows[0].cells[1];
+            //console.log(obj.BankNifty+","+tableArr.rows[0].cells[1].innerHTML+","+tableArr.rows[0].cells[2].innerHTML);
+
+            if(obj.index=="NIFTY 50") {
+
+              tableArr.rows[1].cells[2].innerHTML=(Math.round(obj.last * 100) / 100).toFixed(2)+"<br>"
+                + (Math.round(obj.variation * 100) / 100).toFixed(2) + " ( "
+                + (Math.round(obj.percentChange * 100) / 100).toFixed(2) + " )";
+
+            } else if(obj.index=="NIFTY MIDCAP SELECT") {
+
+              tableArr.rows[2].cells[2].innerHTML=(Math.round(obj.last * 100) / 100).toFixed(2)+"<br>"
+                + (Math.round(obj.variation * 100) / 100).toFixed(2) + " ( "
+                + (Math.round(obj.percentChange * 100) / 100).toFixed(2) + " )";
+
+            } else if(obj.index=="NIFTY BANK") {
+
+              tableArr.rows[0].cells[2].innerHTML=(Math.round(obj.last * 100) / 100).toFixed(2)+"<br>"
+                + (Math.round(obj.variation * 100) / 100).toFixed(2) + " ( "
+                + (Math.round(obj.percentChange * 100) / 100).toFixed(2) + " )";
+
+            } else if(obj.index=="NIFTY FINANCIAL SERVICES") {
+
+              tableArr.rows[3].cells[2].innerHTML=(Math.round(obj.last * 100) / 100).toFixed(2)+"<br>"
+                + (Math.round(obj.variation * 100) / 100).toFixed(2) + " ( "
+                + (Math.round(obj.percentChange * 100) / 100).toFixed(2) + " )";
+
+            }
+
+
+            //tableArr.rows[0].cells[2].innerHTML=(Math.round(obj.BankNifty * 100) / 100).toFixed(2);
+            //tableArr.rows[1].cells[2].innerHTML=(Math.round(obj.Nifty * 100) / 100).toFixed(2);
+            //tableArr.rows[2].cells[2].innerHTML=(Math.round(obj.MidCpNifty * 100) / 100).toFixed(2);
+            //tableArr.rows[3].cells[2].innerHTML=(Math.round(obj.FinNifty * 100) / 100).toFixed(2);
+
+            //obj.BankNifty
+            //obj.Nifty
+            //obj.MidCpNifty
+            //obj.FinNifty
+        }
+    }
+
+    function runJavaFncn(tblIndex) {
+       window.MyHandler.showHTML(tblIndex);
+    }
+
+    function runTblFncn() {
+
+    //var tblStr='{"BankNifty":"46575.9","Nifty":"22055.7","MidCpNifty":"10337.6","FinNifty":"20626.65"}';
+    //tblStr='{"BankNifty":"46447.25","Nifty":"21852.65","MidCpNifty":"10155.3","FinNifty":"20599.75"}';
+
+    //loadTbl(tblStr);
+
+    var tableArr = document.getElementById('tblOptIndex');
+     var rows = tableArr.getElementsByTagName("tr");
+      for (i = 0; i < rows.length; i++) {
+        var currentRow = tableArr.rows[i];
+        var createClickHandler = function(row) {
+          return function() {
+           var cell = row.getElementsByTagName("td")[1];
+            var id = cell.innerHTML;
+            //alert("id:" + id+",row.id:" + row.id);
+            //alert("row.id:" + row.id);
+             runJavaFncn(id);
+           };
+           };
+           currentRow.onclick = createClickHandler(currentRow);
+       }
+    }
+
+
+</script>
+</html>
